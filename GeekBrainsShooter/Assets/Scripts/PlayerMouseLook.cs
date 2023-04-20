@@ -4,15 +4,36 @@ using UnityEngine;
 
 public class PlayerMouseLook : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    [SerializeField]
+    private GameObject _playerCamera;
+    [SerializeField]
+    private float horSens = 1;
+    [SerializeField]
+    private float verSens = 1;
+
+    private PlayerInput _playerInput;
+
+    private float deltaX;
+    private float deltaY;
+
+    private void Start() {
+        _playerInput = GetComponent<PlayerInput>();
+
+        deltaX = 0;
+        deltaY = 0;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    private void Update() {
+
+        deltaX += _playerInput.MouseX*horSens;
+        deltaY -= _playerInput.MouseY*verSens;
+
+        Vector3 newCharacterRotation = new Vector3(0, deltaX, 0);
+
+        transform.localEulerAngles = newCharacterRotation;
+
+        Vector3 newCameraRotation = new Vector3(deltaY, 0, 0);
+
+        _playerCamera.transform.localEulerAngles = newCameraRotation;
     }
 }
