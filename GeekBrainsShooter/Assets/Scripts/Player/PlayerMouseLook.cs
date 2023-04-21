@@ -17,6 +17,9 @@ public class PlayerMouseLook : MonoBehaviour
     private float deltaY;
 
     private void Start() {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+
         _playerInput = GetComponent<PlayerInput>();
 
         deltaX = 0;
