@@ -38,6 +38,8 @@ public class PlayerMovement : MonoBehaviour
 
         move.y = velocityY;
 
+        move = transform.TransformDirection(move);
+
         _controller.Move(move);
     }
 }
