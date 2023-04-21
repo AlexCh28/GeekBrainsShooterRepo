@@ -15,10 +15,6 @@ public abstract class Weapon : MonoBehaviour, IWeapon
     [SerializeField]
     protected TrailRenderer _trail;
 
-    protected virtual void Update() {
-        Fire();
-    }
-
     public virtual void Fire(){}
 
     public virtual void Reload(){}
