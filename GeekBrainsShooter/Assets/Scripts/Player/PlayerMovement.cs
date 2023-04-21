@@ -13,16 +13,23 @@ public class PlayerMovement : MonoBehaviour
 
     private CharacterController _controller;
     private PlayerInput _playerInput;
-    private bool _groundedPlayer;
+    
     private float velocityY = 0;
     private float _gravityValue = -9.81f;
+    private bool _shouldJump;
+    private bool _groundedPlayer;
 
     public bool GroundedPlayer => _groundedPlayer;
 
     private void Start()
     {
+        _shouldJump = false;
         _controller = GetComponent<CharacterController>();
         _playerInput = GetComponent<PlayerInput>();
+    }
+
+    private void Update() {
+        if (_playerInput.JumpKeyPressed && _groundedPlayer && !_shouldJump) _shouldJump = true;
     }
 
     private void FixedUpdate()
@@ -33,7 +40,10 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 move = new Vector3(_playerInput.HorizontalAxis * Time.deltaTime * _playerSpeed, 0, _playerInput.VerticalAxis * Time.deltaTime * _playerSpeed);
 
-        if (_playerInput.JumpKeyPressed && _groundedPlayer) velocityY += _jumpHeight * -1.0f * _gravityValue * Time.deltaTime;
+        if (_shouldJump) {
+            velocityY += _jumpHeight * -1.0f * _gravityValue * Time.deltaTime;
+            _shouldJump = false;
+        }
         else velocityY += _gravityValue * 0.1f *Time.deltaTime;
 
         move.y = velocityY;

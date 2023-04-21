@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,10 +11,10 @@ public class PlayerWeaponController : MonoBehaviour
 
     private void Awake() {
         _weapons = GetComponentsInChildren<IWeapon>();
-        _currentWeapon = _weapons[_activeWeaponIndex+1];
+        _currentWeapon = _weapons[_activeWeaponIndex];
 
         DisableMeshRendererAll(_weapons);
-        EnableMeshRenderer((Weapon)_currentWeapon);
+        SetMeshRenderer((Weapon)_currentWeapon, true);
 
         _playerInput = GetComponent<PlayerInput>();
     }
@@ -25,10 +24,12 @@ public class PlayerWeaponController : MonoBehaviour
             _currentWeapon.Fire();
         }
         else if (_playerInput.ScrollUp){
-
+            _activeWeaponIndex = _activeWeaponIndex+1 >= _weapons.Length ? 0 : _activeWeaponIndex + 1;
+            ChangeWeapon();
         }
         else if (_playerInput.ScrollDown){
-
+            _activeWeaponIndex = _activeWeaponIndex-1 < 0 ? _weapons.Length-1 : _activeWeaponIndex - 1;
+            ChangeWeapon();
         }
     }
 
@@ -38,7 +39,13 @@ public class PlayerWeaponController : MonoBehaviour
         }
     }
 
-    private void EnableMeshRenderer(Weapon weapon){
-        weapon.GetComponent<MeshRenderer>().enabled = true;
+    private void SetMeshRenderer(Weapon weapon, bool value){
+        weapon.GetComponent<MeshRenderer>().enabled = value;
+    }
+
+    private void ChangeWeapon(){
+        SetMeshRenderer((Weapon)_currentWeapon, false);
+        _currentWeapon = _weapons[_activeWeaponIndex];
+        SetMeshRenderer((Weapon)_currentWeapon, true);
     }
 }
