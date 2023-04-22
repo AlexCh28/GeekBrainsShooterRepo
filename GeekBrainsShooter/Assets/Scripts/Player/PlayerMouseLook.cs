@@ -10,6 +10,10 @@ public class PlayerMouseLook : MonoBehaviour
     private float horSens = 1;
     [SerializeField]
     private float verSens = 1;
+    [SerializeField]
+    private float _minYRot;
+    [SerializeField]
+    private float _maxYRot;
 
     private PlayerInput _playerInput;
 
@@ -35,7 +39,7 @@ public class PlayerMouseLook : MonoBehaviour
 
         transform.localEulerAngles = newCharacterRotation;
 
-        Vector3 newCameraRotation = new Vector3(deltaY, 0, 0);
+        Vector3 newCameraRotation = new Vector3(Mathf.Clamp(deltaY, _minYRot, _maxYRot), 0, 0);
 
         _playerCamera.transform.localEulerAngles = newCameraRotation;
     }

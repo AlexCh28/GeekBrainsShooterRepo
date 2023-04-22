@@ -1,9 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
+
 
 public class PlayerWeaponController : MonoBehaviour
 {
+    [SerializeField]
+    private RigBuilder _rigBuilder;
+    [SerializeField]
+    private TwoBoneIKConstraint _constraint;
     private IWeapon[] _weapons;
     private IWeapon _currentWeapon;
     private PlayerInput _playerInput;
@@ -14,7 +20,10 @@ public class PlayerWeaponController : MonoBehaviour
         _currentWeapon = _weapons[_activeWeaponIndex];
 
         DisableMeshRendererAll(_weapons);
-        SetMeshRenderer((Weapon)_currentWeapon, true);
+        Weapon weapon = (Weapon)_currentWeapon;
+        SetMeshRenderer(weapon, true);
+        _constraint.data.target = weapon.Anchor;
+        _rigBuilder.Build();
 
         _playerInput = GetComponent<PlayerInput>();
     }
@@ -46,6 +55,10 @@ public class PlayerWeaponController : MonoBehaviour
     private void ChangeWeapon(){
         SetMeshRenderer((Weapon)_currentWeapon, false);
         _currentWeapon = _weapons[_activeWeaponIndex];
-        SetMeshRenderer((Weapon)_currentWeapon, true);
+
+        Weapon weapon = (Weapon)_currentWeapon;
+        SetMeshRenderer(weapon, true);
+        _constraint.data.target = weapon.Anchor;
+        _rigBuilder.Build();
     }
 }
