@@ -9,28 +9,14 @@ public class PlayerInput : MonoBehaviour
     [SerializeField]
     private KeyCode runKey = KeyCode.LeftShift;
 
-    private float _mouseX;
-    private float _mouseY;
-    private float _verticalAxis;
-    private float _horizontalAxis;
-    private bool _jumpKeyPressed;
-    private bool _runKeyPressed;
-
-    public float MouseX => _mouseX;
-    public float MouseY => _mouseY; 
-    public float VerticalAxis => _verticalAxis;
-    public float HorizontalAxis => _horizontalAxis; 
-    public bool JumpKeyPressed => _jumpKeyPressed;
-    public bool RunKeyPressed => _runKeyPressed;
-
-    private void Update() {
-        _mouseX = Input.GetAxis("Mouse X");
-        _mouseY = Input.GetAxis("Mouse Y");
-
-        _verticalAxis = Input.GetAxis("Vertical");
-        _horizontalAxis = Input.GetAxis("Horizontal");
-
-        _jumpKeyPressed = Input.GetKeyDown(jumpKey);
-        _runKeyPressed = Input.GetKeyDown(runKey);
-    }
+    public float MouseX => Input.GetAxis("Mouse X");
+    public float MouseY => Input.GetAxis("Mouse Y"); 
+    public float VerticalAxis => Input.GetAxis("Vertical");
+    public float HorizontalAxis => Input.GetAxis("Horizontal"); 
+    public bool JumpKeyPressed => Input.GetKeyDown(jumpKey);
+    public bool RunKeyPressed => Input.GetKeyDown(runKey);
+    public bool FireKeyPressed => Input.GetMouseButton(0);
+    public bool FireKeyReleased => Input.GetMouseButtonUp(0);
+    public bool ScrollUp => Input.mouseScrollDelta.y>0;
+    public bool ScrollDown => Input.mouseScrollDelta.y<0;
 }
