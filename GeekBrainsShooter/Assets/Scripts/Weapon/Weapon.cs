@@ -50,6 +50,12 @@ public abstract class Weapon : MonoBehaviour, IWeapon
 
             TrailRenderer trailEffect = Instantiate(_trail, _firePoint.position, Quaternion.identity);
             trailEffect.AddPosition(hitInfo.point);
+
+            IDamagable damagable = hitInfo.transform.GetComponent<IDamagable>();
+            if (damagable != null)
+            {
+                damagable.GetDamage(_damagePerShot);
+            }
         }
     }
 

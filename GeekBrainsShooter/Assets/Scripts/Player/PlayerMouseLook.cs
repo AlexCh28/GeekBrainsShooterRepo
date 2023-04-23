@@ -31,7 +31,7 @@ public class PlayerMouseLook : MonoBehaviour
     }
 
     private void Update() {
-
+        if (GameManager.singleton.IsPause) return;
         deltaX += _playerInput.MouseX*horSens;
         deltaY -= _playerInput.MouseY*verSens;
 
