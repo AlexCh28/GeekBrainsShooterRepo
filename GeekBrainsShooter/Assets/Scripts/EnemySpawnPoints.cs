@@ -15,18 +15,23 @@ public class EnemySpawnPoints : MonoBehaviour
 
     private float timer;
 
+    private int _spawnIndex;
+
     private void Update() {
         if (_spawnPoints.Count == 0) return;
         if (_enemyPrefabs.Count == 0) return;
 
         timer += Time.deltaTime;
-        if (timer > timeInterval){
+        if (timer > timeInterval && GameManager.singleton.AmountOfEnemies > 0){
             timer = 0;
 
-            Vector3 spawnPointPosition = _spawnPoints[Random.Range(0, _spawnPoints.Count)].position;
-            GameObject enemyToSpawn = _enemyPrefabs[Random.Range(0, _spawnPoints.Count)];
+            Vector3 spawnPointPosition = _spawnPoints[_spawnIndex].position;
+            GameObject enemyToSpawn = _enemyPrefabs[Random.Range(0, _enemyPrefabs.Count)];
 
             Instantiate(enemyToSpawn, spawnPointPosition, Quaternion.identity);
+
+            GameManager.singleton.AmountOfEnemies -= 1;
+            _spawnIndex = _spawnIndex+1>=_spawnPoints.Count ? 0 : _spawnIndex+1;
         }
     }
 

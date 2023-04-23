@@ -29,11 +29,13 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void Update() {
+        if (GameManager.singleton.IsPause) return;
         if (_playerInput.JumpKeyPressed && _groundedPlayer && !_shouldJump) _shouldJump = true;
     }
 
     private void FixedUpdate()
     {
+        if (GameManager.singleton.IsPause) return;
         _groundedPlayer = Physics.Raycast(transform.position+Vector3.up, Vector3.down, 1.05f, _groundLayer);
         
         if (_groundedPlayer && velocityY < 0f) velocityY = 0.0f;
@@ -43,6 +45,7 @@ public class PlayerMovement : MonoBehaviour
         if (_shouldJump) {
             velocityY += _jumpHeight * -1.0f * _gravityValue * Time.deltaTime;
             _shouldJump = false;
+            GameManager.singleton.JumpToWin = GameManager.singleton.JumpToWin>1 ? GameManager.singleton.JumpToWin-1 : 0;
         }
         else velocityY += _gravityValue * 0.1f *Time.deltaTime;
 

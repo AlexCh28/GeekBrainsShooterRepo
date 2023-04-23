@@ -15,6 +15,7 @@ public class PlayerAnimatorController : MonoBehaviour
     }
 
     private void Update() {
+        if (GameManager.singleton.IsPause) return;
         RunAnimationController();
         JumpAnimationController();
     }

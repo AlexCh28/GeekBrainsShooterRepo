@@ -29,6 +29,7 @@ public class PlayerWeaponController : MonoBehaviour
     }
 
     private void Update() {
+        if (GameManager.singleton.IsPause) return;
         if (_playerInput.FireKeyPressed) {
             _currentWeapon.Fire();
         }
