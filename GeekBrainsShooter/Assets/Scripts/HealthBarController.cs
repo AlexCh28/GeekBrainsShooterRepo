@@ -14,6 +14,8 @@ public abstract class HealthBarController : MonoBehaviour, IDamagable
     }
 
     private void ChangeHealtBar(){
+        if (!FillPanel) return;
+        
         Vector3 newScale = new Vector3(_health/_maxHealth,1,1);
         FillPanel.transform.localScale = newScale;
     }
